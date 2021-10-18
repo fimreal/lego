@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/go-acme/lego/v4/certificate"
+	"github.com/go-acme/lego/v4/ksecret"
 	"github.com/go-acme/lego/v4/lego"
 	"github.com/go-acme/lego/v4/log"
 	"github.com/go-acme/lego/v4/registration"
@@ -51,6 +52,10 @@ func createRun() cli.Command {
 				Name:  "always-deactivate-authorizations",
 				Usage: "Force the authorizations to be relinquished even if the certificate request was successful.",
 			},
+			// cli.StringFlag{
+			// 	Name:  "deploy-to-k8s-secret",
+			// 	Usage: "After create/renew certificate,and deploy/update to k8s secret.",
+			// },
 		},
 	}
 }
@@ -103,6 +108,15 @@ func run(ctx *cli.Context) error {
 		renewEnvCertDomain:   cert.Domain,
 		renewEnvCertPath:     certsStorage.GetFileName(cert.Domain, ".crt"),
 		renewEnvCertKeyPath:  certsStorage.GetFileName(cert.Domain, ".key"),
+	}
+
+	secretName := ctx.GlobalString("apply-to-secret")
+	if secretName != "" {
+		log.Infof("准备将证书部署到 secret[%s]...", secretName)
+		if err := ksecret.DeployToSecret(&secretName, cert); err != nil {
+			log.Fatal("部署到 secret 出现错误：", err)
+		}
+		log.Infof("部署成功！\n")
 	}
 
 	return launchHook(ctx.String("run-hook"), meta)

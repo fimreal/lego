@@ -116,5 +116,9 @@ func CreateFlags(defaultPath string) []cli.Flag {
 			Usage: "Set the certificate timeout value to a specific value in seconds. Only used when obtaining certificates.",
 			Value: 30,
 		},
+		cli.StringFlag{
+			Name:  "apply-to-secret",
+			Usage: "Apply certificate to k8s secret. Format: {namespace}/{secretname}",
+		},
 	}
 }
