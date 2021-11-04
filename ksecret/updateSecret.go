@@ -13,15 +13,20 @@ import (
 func UpdateSecret(clientset *kubernetes.Clientset, s *Secret) (err error) {
 
 	// create secret struct
+	metadata := metav1.ObjectMeta{}
 	newSecret := v1.Secret{
-		TypeMeta:   metav1.TypeMeta{Kind: "Secret", APIVersion: "v1"},
-		ObjectMeta: metav1.ObjectMeta{Name: s.SecretName, Namespace: s.SecretNamespace},
+		TypeMeta: metav1.TypeMeta{Kind: "Secret", APIVersion: "v1"},
+		// ObjectMeta: metav1.ObjectMeta{Name: s.SecretName, Namespace: s.SecretNamespace},
+		ObjectMeta: metadata,
 		Data:       map[string][]byte{},
 		StringData: map[string]string{},
 		Type:       "kubernetes/tls",
 	}
 	newSecret.Data["tls.key"] = s.Key
 	newSecret.Data["tls.crt"] = s.Crt
+	metadata.Annotations["replicator.v1.mittwald.de/replicate-to"] = ".*"
+	metadata.Name = s.SecretName
+	metadata.Namespace = s.SecretNamespace
 
 	// update secret
 	_, err = clientset.CoreV1().Secrets(s.SecretNamespace).Update(context.TODO(), &newSecret, metav1.UpdateOptions{})
