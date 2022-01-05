@@ -1,8 +1,7 @@
 package ksecret
 
 import (
-	"log"
-
+	"github.com/go-acme/lego/v4/log"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	// "k8s.io/client-go/tools/clientcmd"
@@ -15,7 +14,7 @@ func NewKubeClient() (*kubernetes.Clientset, error) {
 	if err != nil {
 		return nil, err
 	} else {
-		log.Println("成功获取到 kubernetes 配置")
+		log.Infof("成功获取到 kubernetes 配置")
 		return kubernetes.NewForConfig(config)
 	}
 
