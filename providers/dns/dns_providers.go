@@ -53,11 +53,13 @@ import (
 	"github.com/go-acme/lego/v4/providers/dns/hyperone"
 	"github.com/go-acme/lego/v4/providers/dns/ibmcloud"
 	"github.com/go-acme/lego/v4/providers/dns/iij"
+	"github.com/go-acme/lego/v4/providers/dns/iijdpf"
 	"github.com/go-acme/lego/v4/providers/dns/infoblox"
 	"github.com/go-acme/lego/v4/providers/dns/infomaniak"
 	"github.com/go-acme/lego/v4/providers/dns/internetbs"
 	"github.com/go-acme/lego/v4/providers/dns/inwx"
 	"github.com/go-acme/lego/v4/providers/dns/ionos"
+	"github.com/go-acme/lego/v4/providers/dns/iwantmyname"
 	"github.com/go-acme/lego/v4/providers/dns/joker"
 	"github.com/go-acme/lego/v4/providers/dns/lightsail"
 	"github.com/go-acme/lego/v4/providers/dns/linode"
@@ -69,6 +71,7 @@ import (
 	"github.com/go-acme/lego/v4/providers/dns/namecheap"
 	"github.com/go-acme/lego/v4/providers/dns/namedotcom"
 	"github.com/go-acme/lego/v4/providers/dns/namesilo"
+	"github.com/go-acme/lego/v4/providers/dns/nearlyfreespeech"
 	"github.com/go-acme/lego/v4/providers/dns/netcup"
 	"github.com/go-acme/lego/v4/providers/dns/netlify"
 	"github.com/go-acme/lego/v4/providers/dns/nicmanager"
@@ -85,6 +88,7 @@ import (
 	"github.com/go-acme/lego/v4/providers/dns/rfc2136"
 	"github.com/go-acme/lego/v4/providers/dns/rimuhosting"
 	"github.com/go-acme/lego/v4/providers/dns/route53"
+	"github.com/go-acme/lego/v4/providers/dns/safedns"
 	"github.com/go-acme/lego/v4/providers/dns/sakuracloud"
 	"github.com/go-acme/lego/v4/providers/dns/scaleway"
 	"github.com/go-acme/lego/v4/providers/dns/selectel"
@@ -92,8 +96,11 @@ import (
 	"github.com/go-acme/lego/v4/providers/dns/simply"
 	"github.com/go-acme/lego/v4/providers/dns/sonic"
 	"github.com/go-acme/lego/v4/providers/dns/stackpath"
+	"github.com/go-acme/lego/v4/providers/dns/tencentcloud"
 	"github.com/go-acme/lego/v4/providers/dns/transip"
+	"github.com/go-acme/lego/v4/providers/dns/variomedia"
 	"github.com/go-acme/lego/v4/providers/dns/vegadns"
+	"github.com/go-acme/lego/v4/providers/dns/vercel"
 	"github.com/go-acme/lego/v4/providers/dns/versio"
 	"github.com/go-acme/lego/v4/providers/dns/vinyldns"
 	"github.com/go-acme/lego/v4/providers/dns/vscale"
@@ -203,6 +210,8 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return ibmcloud.NewDNSProvider()
 	case "iij":
 		return iij.NewDNSProvider()
+	case "iijdpf":
+		return iijdpf.NewDNSProvider()
 	case "infoblox":
 		return infoblox.NewDNSProvider()
 	case "infomaniak":
@@ -213,6 +222,8 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return inwx.NewDNSProvider()
 	case "ionos":
 		return ionos.NewDNSProvider()
+	case "iwantmyname":
+		return iwantmyname.NewDNSProvider()
 	case "joker":
 		return joker.NewDNSProvider()
 	case "lightsail":
@@ -237,6 +248,8 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return namedotcom.NewDNSProvider()
 	case "namesilo":
 		return namesilo.NewDNSProvider()
+	case "nearlyfreespeech":
+		return nearlyfreespeech.NewDNSProvider()
 	case "netcup":
 		return netcup.NewDNSProvider()
 	case "netlify":
@@ -269,6 +282,8 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return rimuhosting.NewDNSProvider()
 	case "route53":
 		return route53.NewDNSProvider()
+	case "safedns":
+		return safedns.NewDNSProvider()
 	case "sakuracloud":
 		return sakuracloud.NewDNSProvider()
 	case "scaleway":
@@ -283,10 +298,16 @@ func NewDNSChallengeProviderByName(name string) (challenge.Provider, error) {
 		return sonic.NewDNSProvider()
 	case "stackpath":
 		return stackpath.NewDNSProvider()
+	case "tencentcloud":
+		return tencentcloud.NewDNSProvider()
 	case "transip":
 		return transip.NewDNSProvider()
+	case "variomedia":
+		return variomedia.NewDNSProvider()
 	case "vegadns":
 		return vegadns.NewDNSProvider()
+	case "vercel":
+		return vercel.NewDNSProvider()
 	case "versio":
 		return versio.NewDNSProvider()
 	case "vinyldns":

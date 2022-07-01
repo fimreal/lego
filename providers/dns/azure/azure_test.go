@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/go-acme/lego/v4/platform/tester"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -59,13 +60,16 @@ func TestNewDNSProvider(t *testing.T) {
 
 			p, err := NewDNSProvider()
 
-			if test.expected == "" {
-				require.NoError(t, err)
-				require.NotNil(t, p)
-				require.NotNil(t, p.config)
-			} else {
+			if test.expected != "" {
 				require.EqualError(t, err, test.expected)
+				return
 			}
+
+			require.NoError(t, err)
+			require.NotNil(t, p)
+			require.NotNil(t, p.provider)
+
+			assert.IsType(t, p.provider, new(dnsProviderPublic))
 		})
 	}
 }
@@ -78,16 +82,27 @@ func TestNewDNSProviderConfig(t *testing.T) {
 		subscriptionID string
 		tenantID       string
 		resourceGroup  string
+		privateZone    bool
 		handler        func(w http.ResponseWriter, r *http.Request)
 		expected       string
 	}{
 		{
-			desc:           "success",
+			desc:           "success (public)",
 			clientID:       "A",
 			clientSecret:   "B",
 			tenantID:       "C",
 			subscriptionID: "D",
 			resourceGroup:  "E",
+			privateZone:    false,
+		},
+		{
+			desc:           "success (private)",
+			clientID:       "A",
+			clientSecret:   "B",
+			tenantID:       "C",
+			subscriptionID: "D",
+			resourceGroup:  "E",
+			privateZone:    true,
 		},
 		{
 			desc:           "SubscriptionID missing",
@@ -118,6 +133,7 @@ func TestNewDNSProviderConfig(t *testing.T) {
 				_, err := w.Write([]byte("foo"))
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
 				}
 			},
 		},
@@ -131,25 +147,34 @@ func TestNewDNSProviderConfig(t *testing.T) {
 			config.SubscriptionID = test.subscriptionID
 			config.TenantID = test.tenantID
 			config.ResourceGroup = test.resourceGroup
+			config.PrivateZone = test.privateZone
 
-			handler := http.NewServeMux()
-			server := httptest.NewServer(handler)
-			defer server.Close()
+			mux := http.NewServeMux()
+			server := httptest.NewServer(mux)
+			t.Cleanup(server.Close)
+
 			if test.handler == nil {
-				handler.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
+				mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
 			} else {
-				handler.HandleFunc("/", test.handler)
+				mux.HandleFunc("/", test.handler)
 			}
 			config.MetadataEndpoint = server.URL
 
 			p, err := NewDNSProviderConfig(config)
 
-			if test.expected == "" {
-				require.NoError(t, err)
-				require.NotNil(t, p)
-				require.NotNil(t, p.config)
-			} else {
+			if test.expected != "" {
 				require.EqualError(t, err, test.expected)
+				return
+			}
+
+			require.NoError(t, err)
+			require.NotNil(t, p)
+			require.NotNil(t, p.provider)
+
+			if test.privateZone {
+				assert.IsType(t, p.provider, new(dnsProviderPrivate))
+			} else {
+				assert.IsType(t, p.provider, new(dnsProviderPublic))
 			}
 		})
 	}

@@ -62,11 +62,13 @@ func allDNSCodes() string {
 		"hyperone",
 		"ibmcloud",
 		"iij",
+		"iijdpf",
 		"infoblox",
 		"infomaniak",
 		"internetbs",
 		"inwx",
 		"ionos",
+		"iwantmyname",
 		"joker",
 		"lightsail",
 		"linode",
@@ -78,6 +80,7 @@ func allDNSCodes() string {
 		"namecheap",
 		"namedotcom",
 		"namesilo",
+		"nearlyfreespeech",
 		"netcup",
 		"netlify",
 		"nicmanager",
@@ -94,6 +97,7 @@ func allDNSCodes() string {
 		"rfc2136",
 		"rimuhosting",
 		"route53",
+		"safedns",
 		"sakuracloud",
 		"scaleway",
 		"selectel",
@@ -101,8 +105,11 @@ func allDNSCodes() string {
 		"simply",
 		"sonic",
 		"stackpath",
+		"tencentcloud",
 		"transip",
+		"variomedia",
 		"vegadns",
+		"vercel",
 		"versio",
 		"vinyldns",
 		"vscale",
@@ -167,8 +174,8 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 
 		ew.writeln(`Credentials:`)
-		ew.writeln(`	- "ALL_INKL_API_KEY":	API login`)
-		ew.writeln(`	- "ALL_INKL_PASSWORD":	API password`)
+		ew.writeln(`	- "ALL_INKL_LOGIN":	KAS login`)
+		ew.writeln(`	- "ALL_INKL_PASSWORD":	KAS password`)
 		ew.writeln()
 
 		ew.writeln(`Additional Configuration:`)
@@ -263,6 +270,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln(`Additional Configuration:`)
 		ew.writeln(`	- "AZURE_METADATA_ENDPOINT":	Metadata Service endpoint URL`)
 		ew.writeln(`	- "AZURE_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "AZURE_PRIVATE_ZONE":	Set to true to use Azure Private DNS Zones and not public`)
 		ew.writeln(`	- "AZURE_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
 		ew.writeln(`	- "AZURE_TTL":	The TTL of the TXT record used for the DNS challenge`)
 		ew.writeln(`	- "AZURE_ZONE_NAME":	Zone name to use inside Azure DNS service to add the TXT record in`)
@@ -1128,6 +1136,27 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/iij`)
 
+	case "iijdpf":
+		// generated from: providers/dns/iijdpf/iijdpf.toml
+		ew.writeln(`Configuration for IIJ DNS Platform Service.`)
+		ew.writeln(`Code:	'iijdpf'`)
+		ew.writeln(`Since:	'v4.7.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "IIJ_DPF_API_TOKEN":	API token`)
+		ew.writeln(`	- "IIJ_DPF_DPM_SERVICE_CODE":	IIJ Managed DNS Service's service code`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "IIJ_DPF_API_ENDPOINT":	API endpoint URL, defaults to https://api.dns-platform.jp/dpf/v1`)
+		ew.writeln(`	- "IIJ_DPF_POLLING_INTERVAL":	Time between DNS propagation check, defaults to 5 second`)
+		ew.writeln(`	- "IIJ_DPF_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation, defaults to 660 second`)
+		ew.writeln(`	- "IIJ_DPF_TTL":	The TTL of the TXT record used for the DNS challenge, default to 300`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/iijdpf`)
+
 	case "infoblox":
 		// generated from: providers/dns/infoblox/infoblox.toml
 		ew.writeln(`Configuration for Infoblox.`)
@@ -1237,6 +1266,27 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/ionos`)
+
+	case "iwantmyname":
+		// generated from: providers/dns/iwantmyname/iwantmyname.toml
+		ew.writeln(`Configuration for iwantmyname.`)
+		ew.writeln(`Code:	'iwantmyname'`)
+		ew.writeln(`Since:	'v4.7.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "IWANTMYNAME_PASSWORD":	API password`)
+		ew.writeln(`	- "IWANTMYNAME_USERNAME":	API username`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "IWANTMYNAME_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "IWANTMYNAME_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "IWANTMYNAME_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "IWANTMYNAME_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/iwantmyname`)
 
 	case "joker":
 		// generated from: providers/dns/joker/joker.toml
@@ -1473,6 +1523,28 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/namesilo`)
+
+	case "nearlyfreespeech":
+		// generated from: providers/dns/nearlyfreespeech/nearlyfreespeech.toml
+		ew.writeln(`Configuration for NearlyFreeSpeech.NET.`)
+		ew.writeln(`Code:	'nearlyfreespeech'`)
+		ew.writeln(`Since:	'v4.8.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "NEARLYFREESPEECH_API_KEY":	API Key for API requests`)
+		ew.writeln(`	- "NEARLYFREESPEECH_LOGIN":	Username for API requests`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "NEARLYFREESPEECH_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "NEARLYFREESPEECH_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "NEARLYFREESPEECH_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "NEARLYFREESPEECH_SEQUENCE_INTERVAL":	Time between sequential requests`)
+		ew.writeln(`	- "NEARLYFREESPEECH_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/nearlyfreespeech`)
 
 	case "netcup":
 		// generated from: providers/dns/netcup/netcup.toml
@@ -1812,6 +1884,7 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln(`Credentials:`)
 		ew.writeln(`	- "AWS_ACCESS_KEY_ID":	Managed by the AWS client. Access key ID ('AWS_ACCESS_KEY_ID_FILE' is not supported, use 'AWS_SHARED_CREDENTIALS_FILE' instead)`)
+		ew.writeln(`	- "AWS_ASSUME_ROLE_ARN":	Managed by the AWS Role ARN ('AWS_ASSUME_ROLE_ARN' is not supported)`)
 		ew.writeln(`	- "AWS_HOSTED_ZONE_ID":	Override the hosted zone ID.`)
 		ew.writeln(`	- "AWS_PROFILE":	Managed by the AWS client ('AWS_PROFILE_FILE' is not supported)`)
 		ew.writeln(`	- "AWS_REGION":	Managed by the AWS client ('AWS_REGION_FILE' is not supported)`)
@@ -1828,6 +1901,26 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/route53`)
+
+	case "safedns":
+		// generated from: providers/dns/safedns/safedns.toml
+		ew.writeln(`Configuration for UKFast SafeDNS.`)
+		ew.writeln(`Code:	'safedns'`)
+		ew.writeln(`Since:	'v4.6.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "SAFEDNS_AUTH_TOKEN":	Authentication token`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "SAFEDNS_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "SAFEDNS_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "SAFEDNS_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "SAFEDNS_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/safedns`)
 
 	case "sakuracloud":
 		// generated from: providers/dns/sakuracloud/sakuracloud.toml
@@ -1976,6 +2069,28 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/stackpath`)
 
+	case "tencentcloud":
+		// generated from: providers/dns/tencentcloud/tencentcloud.toml
+		ew.writeln(`Configuration for Tencent Cloud DNS.`)
+		ew.writeln(`Code:	'tencentcloud'`)
+		ew.writeln(`Since:	'v4.6.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "TENCENTCLOUD_SECRET_ID":	Access key ID`)
+		ew.writeln(`	- "TENCENTCLOUD_SECRET_KEY":	Access Key secret`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "TENCENTCLOUD_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "TENCENTCLOUD_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "TENCENTCLOUD_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "TENCENTCLOUD_REGION":	Region`)
+		ew.writeln(`	- "TENCENTCLOUD_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/tencentcloud`)
+
 	case "transip":
 		// generated from: providers/dns/transip/transip.toml
 		ew.writeln(`Configuration for TransIP.`)
@@ -1995,6 +2110,27 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/transip`)
+
+	case "variomedia":
+		// generated from: providers/dns/variomedia/variomedia.toml
+		ew.writeln(`Configuration for Variomedia.`)
+		ew.writeln(`Code:	'variomedia'`)
+		ew.writeln(`Since:	'v4.8.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "VARIOMEDIA_API_TOKEN":	API token`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "DODE_SEQUENCE_INTERVAL":	Time between sequential requests`)
+		ew.writeln(`	- "VARIOMEDIA_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "VARIOMEDIA_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "VARIOMEDIA_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "VARIOMEDIA_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/variomedia`)
 
 	case "vegadns":
 		// generated from: providers/dns/vegadns/vegadns.toml
@@ -2016,6 +2152,27 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/vegadns`)
+
+	case "vercel":
+		// generated from: providers/dns/vercel/vercel.toml
+		ew.writeln(`Configuration for Vercel.`)
+		ew.writeln(`Code:	'vercel'`)
+		ew.writeln(`Since:	'v4.7.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "VERCEL_API_TOKEN":	Authentication token`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "VERCEL_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "VERCEL_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "VERCEL_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "VERCEL_TEAM_ID":	Team ID (ex: team_xxxxxxxxxxxxxxxxxxxxxxxx)`)
+		ew.writeln(`	- "VERCEL_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/vercel`)
 
 	case "versio":
 		// generated from: providers/dns/versio/versio.toml

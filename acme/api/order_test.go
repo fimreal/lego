@@ -16,8 +16,7 @@ import (
 )
 
 func TestOrderService_New(t *testing.T) {
-	mux, apiURL, tearDown := tester.SetupFakeAPI()
-	defer tearDown()
+	mux, apiURL := tester.SetupFakeAPI(t)
 
 	// small value keeps test fast
 	privateKey, errK := rsa.GenerateKey(rand.Reader, 512)
@@ -32,6 +31,7 @@ func TestOrderService_New(t *testing.T) {
 		body, err := readSignedBody(r, privateKey)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
 		}
 
 		order := acme.Order{}

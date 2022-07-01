@@ -3,25 +3,30 @@ title: "External program"
 date: 2019-03-03T16:39:46+01:00
 draft: false
 slug: exec
+dnsprovider:
+  since:    "v0.5.0"
+  code:     "exec"
+  url:      "/dns/exec"
 ---
 
 <!-- THIS DOCUMENTATION IS AUTO-GENERATED. PLEASE DO NOT EDIT. -->
 <!-- providers/dns/exec/exec.toml -->
 <!-- THIS DOCUMENTATION IS AUTO-GENERATED. PLEASE DO NOT EDIT. -->
 
-Since: v0.5.0
 Solving the DNS-01 challenge using an external program.
 
 
 <!--more-->
 
 - Code: `exec`
+- Since: v0.5.0
+
 
 Here is an example bash command using the External program provider:
 
 ```bash
 EXEC_PATH=/the/path/to/myscript.sh \
-lego --email myemail@example.com --dns exec --domains my.example.org run
+lego --email you@example.com --dns exec --domains my.example.org run
 ```
 
 
@@ -42,6 +47,7 @@ lego --email myemail@example.com --dns exec --domains my.example.org run
 |----------------------------|-------------------------------------------|
 | `EXEC_POLLING_INTERVAL`    | Time between DNS propagation check.       |
 | `EXEC_PROPAGATION_TIMEOUT` | Maximum waiting time for DNS propagation. |
+| `EXEC_SEQUENCE_INTERVAL`   | Time between sequential requests.         |
 
 
 ## Description
@@ -55,7 +61,7 @@ For example, requesting a certificate for the domain 'my.example.org' can be ach
 
 ```bash
 EXEC_PATH=./update-dns.sh \
-	lego --email myemail@example.com \
+	lego --email you@example.com \
 	--dns exec \
 	--domains my.example.org run
 ```
@@ -77,7 +83,7 @@ If you want to use the raw domain, token, and keyAuth values with your program, 
 ```bash
 EXEC_MODE=RAW \
 EXEC_PATH=./update-dns.sh \
-	lego --email myemail@example.com \
+	lego --email you@example.com \
 	--dns exec \
 	--domains my.example.org run
 ```

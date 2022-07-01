@@ -154,13 +154,13 @@ Ob8VZRzI9neWagqNdwvYkQsEjgfbKbYK7p2CNTUQ
 `
 
 func Test_checkResponse(t *testing.T) {
-	mux, apiURL, tearDown := tester.SetupFakeAPI()
-	defer tearDown()
+	mux, apiURL := tester.SetupFakeAPI(t)
 
 	mux.HandleFunc("/certificate", func(w http.ResponseWriter, _ *http.Request) {
 		_, err := w.Write([]byte(certResponseMock))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 
@@ -195,14 +195,14 @@ func Test_checkResponse(t *testing.T) {
 }
 
 func Test_checkResponse_issuerRelUp(t *testing.T) {
-	mux, apiURL, tearDown := tester.SetupFakeAPI()
-	defer tearDown()
+	mux, apiURL := tester.SetupFakeAPI(t)
 
 	mux.HandleFunc("/certificate", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Link", "<"+apiURL+`/issuer>; rel="up"`)
 		_, err := w.Write([]byte(certResponseMock))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 
@@ -211,6 +211,7 @@ func Test_checkResponse_issuerRelUp(t *testing.T) {
 		_, err := w.Write(p.Bytes)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 
@@ -245,13 +246,13 @@ func Test_checkResponse_issuerRelUp(t *testing.T) {
 }
 
 func Test_checkResponse_embeddedIssuer(t *testing.T) {
-	mux, apiURL, tearDown := tester.SetupFakeAPI()
-	defer tearDown()
+	mux, apiURL := tester.SetupFakeAPI(t)
 
 	mux.HandleFunc("/certificate", func(w http.ResponseWriter, _ *http.Request) {
 		_, err := w.Write([]byte(certResponseMock))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 
@@ -286,8 +287,7 @@ func Test_checkResponse_embeddedIssuer(t *testing.T) {
 }
 
 func Test_checkResponse_alternate(t *testing.T) {
-	mux, apiURL, tearDown := tester.SetupFakeAPI()
-	defer tearDown()
+	mux, apiURL := tester.SetupFakeAPI(t)
 
 	mux.HandleFunc("/certificate", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Add("Link", fmt.Sprintf(`<%s/certificate/1>;title="foo";rel="alternate"`, apiURL))
@@ -295,6 +295,7 @@ func Test_checkResponse_alternate(t *testing.T) {
 		_, err := w.Write([]byte(certResponseMock))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 
@@ -302,6 +303,7 @@ func Test_checkResponse_alternate(t *testing.T) {
 		_, err := w.Write([]byte(certResponseMock2))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 
@@ -339,13 +341,13 @@ func Test_checkResponse_alternate(t *testing.T) {
 }
 
 func Test_Get(t *testing.T) {
-	mux, apiURL, tearDown := tester.SetupFakeAPI()
-	defer tearDown()
+	mux, apiURL := tester.SetupFakeAPI(t)
 
 	mux.HandleFunc("/acme/cert/test-cert", func(w http.ResponseWriter, _ *http.Request) {
 		_, err := w.Write([]byte(certResponseMock))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	})
 

@@ -17,12 +17,16 @@
     min-len = 3.0
     min-occurrences = 3.0
 
+  [linters-settings.funlen]
+    lines = -1
+    statements = 50
+
   [linters-settings.misspell]
     locale = "US"
     ignore-words = ["internetbs"]
 
   [linters-settings.depguard]
-    list-type = "blacklist"
+    list-type = "denylist"
     include-go-root = false
     packages = ["github.com/pkg/errors"]
 
@@ -41,6 +45,9 @@
       "octalLiteral",
       "ptrToRefParam",
       "appendAssign",
+      "ruleguard",
+      "httpNoBody",
+      "exposedSyncMutex",
     ]
 
 [linters]
@@ -50,7 +57,11 @@
     "maligned", # deprecated
     "scopelint", # deprecated
     "golint", # deprecated
+    "exhaustivestruct", # deprecated
     "cyclop", # duplicate of gocyclo
+    "sqlclosecheck", # not relevant (SQL)
+    "rowserrcheck", # not relevant (SQL)
+    "execinquery", # not relevant (SQL)
     "lll",
     "gosec",
     "dupl", # not relevant
@@ -66,14 +77,21 @@
     "nlreturn", # not relevant
     "wsl", # not relevant
     "exhaustive", # not relevant
-    "exhaustivestruct", # not relevant
+    "exhaustruct", # not relevant
     "makezero", # not relevant
     "ifshort", # not relevant
     "forbidigo", # not relevant
+    "varnamelen", # not relevant
+    "nilnil", # not relevant
+    "ireturn", # not relevant
+    "contextcheck", # too many false-positive
+    "tenv", # we already have a test "framework" to handle env vars
     "noctx",
     "forcetypeassert",
     "tagliatelle",
     "errname",
+    "errchkjson",
+    "nonamedreturns",
   ]
 
 [issues]
@@ -87,7 +105,7 @@
   ]
   [[issues.exclude-rules]]
     path = "(.+)_test.go"
-    linters = ["funlen", "goconst"]
+    linters = ["funlen", "goconst", "maintidx"]
   [[issues.exclude-rules]]
     path = "providers/dns/dns_providers.go"
     linters = ["gocyclo"]
@@ -172,3 +190,6 @@
   [[issues.exclude-rules]]
     path = "challenge/http01/domain_matcher.go"
     text = "yodaStyleExpr"
+  [[issues.exclude-rules]]
+    path = "providers/dns/dns_providers.go"
+    text = "Function name: NewDNSChallengeProviderByName,"
