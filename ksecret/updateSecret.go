@@ -28,7 +28,7 @@ func UpdateSecret(clientset *kubernetes.Clientset, s *Secret) (err error) {
 		ObjectMeta: metadata,
 		Data:       map[string][]byte{},
 		StringData: map[string]string{},
-		Type:       "kubernetes/tls",
+		Type:       "kubernetes.io/tls",
 	}
 	newSecret.Data["tls.key"] = s.Key
 	newSecret.Data["tls.crt"] = s.Crt
