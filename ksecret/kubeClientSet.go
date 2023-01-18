@@ -14,7 +14,7 @@ func NewKubeClient() (*kubernetes.Clientset, error) {
 	if err != nil {
 		return nil, err
 	} else {
-		log.Infof("成功获取到 kubernetes 配置")
+		log.Infof("成功获取到 kubernetes 配置\n")
 		return kubernetes.NewForConfig(config)
 	}
 

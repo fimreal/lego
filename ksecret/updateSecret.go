@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/go-acme/lego/v4/certificate"
+	"github.com/go-acme/lego/v4/log"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -38,6 +39,7 @@ func UpdateSecret(clientset *kubernetes.Clientset, s *Secret) (err error) {
 	if err == nil {
 		return
 	}
+	log.Warnf("Update secret[%s/%s]: %s", s.SecretNamespace, s.SecretName, err.Error())
 
 	// create secret
 	_, err = clientset.CoreV1().Secrets(s.SecretNamespace).Create(context.TODO(), &newSecret, metav1.CreateOptions{})

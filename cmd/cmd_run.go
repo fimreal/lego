@@ -112,9 +112,9 @@ func run(ctx *cli.Context) error {
 
 	secretName := ctx.String("apply-to-secret")
 	if secretName != "" {
-		log.Infof("准备将证书部署到 secret[%s]...", secretName)
+		log.Infof("准备将证书部署到 secret[%s]... \n", secretName)
 		if err := ksecret.DeployToSecret(&secretName, cert); err != nil {
-			log.Fatal("部署到 secret 出现错误：", err)
+			log.Fatal("部署到 secret 出现错误：\n", err)
 		}
 		log.Infof("部署成功！\n")
 	}
