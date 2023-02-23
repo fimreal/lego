@@ -1,5 +1,72 @@
 # Changelog
 
+## [v4.10.0] - 2023-02-10
+
+### Added:
+- **[dnsprovider]** Add DNS provider for dnsHome.de
+- **[dnsprovider]** Add DNS provider for Liara
+- **[dnsprovider]** Add DNS provider for UltraDNS
+- **[dnsprovider]** Add DNS provider for Websupport
+
+### Changed:
+- **[dnsprovider]** ibmcloud: add support for subdomains
+- **[dnsprovider]** infomaniak: CNAME support
+- **[dnsprovider]** namesilo: add cleanup before add a DNS record
+- **[dnsprovider]** route53: Allow static credentials to be supplied
+- **[dnsprovider]** tencentcloud: support punycode domain
+
+### Fixed:
+- **[dnsprovider]** alidns: filter on record type
+- **[dnsprovider]** arvancloud: replace arvancloud.com by arvancloud.ir
+- **[dnsprovider]** hetzner: improve zone ID detection
+- **[dnsprovider]** luadns: removed dot suffix from authzone while searching for zone
+- **[dnsprovider]** pdns: fix usage of notify only when zone kind is Master or Slave
+- **[dnsprovider]** return an error when extracting record name
+
+## [v4.9.1] - 2022-11-25
+
+### Changed:
+- 
+- **[lib,cname]** cname: add log about CNAME entries
+- **[dnsprovider]** regru: improve error handling
+
+### Fixed:
+- 
+- **[dnsprovider,cname]** fix CNAME support for multiple DNS providers
+- **[dnsprovider,cname]** duckdns: fix CNAME support
+- **[dnsprovider,cname]** oraclecloud: use fqdn to resolve zone
+- **[dnsprovider]** hurricane: fix CNAME support
+- **[lib,cname]** cname: stop trying to traverse cname if none have been found
+
+## [v4.9.0] - 2022-10-03
+
+### Added:
+
+- **[dnsprovider]** Add DNS provider for CIVO
+- **[dnsprovider]** Add DNS provider for VK Cloud
+- **[dnsprovider]** Add DNS provider for YandexCloud
+- **[dnsprovider]** digitalocean: configurable base URL
+- **[dnsprovider]** loopia: add configurable API endpoint
+- **[dnsprovider]** pdns: notify secondary servers after updates
+
+### Changed:
+
+- **[dnsprovider]** allinkl: removed deprecated sha1 hashing
+- **[dnsprovider]** auroradns: update authentification
+- **[dnsprovider]** dnspod: deprecated. Use Tencent Cloud instead.
+- **[dnsprovider]** exoscale: migrate to API v2 endpoints
+- **[dnsprovider]** gcloud: update golang.org/x/oauth2
+- **[dnsprovider]** lightsail: cleanup
+- **[dnsprovider]** sakuracloud: update api client library
+- **[cname]** take out CNAME support from experimental features
+- **[lib,cname]** add recursive CNAME lookup support
+- **[lib]** Remove embedded issuer certificates from issued certificate if bundle is false
+
+### Fixed:
+- **[dnsprovider]** luadns: fix cname support
+- **[dnsprovider]** njalla: fix record id unmarshal error
+- **[dnsprovider]** tencentcloud: fix subdomain error
+
 ## [v4.8.0] - 2022-06-30
 
 ### Added

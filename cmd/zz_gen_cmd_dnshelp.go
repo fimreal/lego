@@ -5,7 +5,7 @@ package cmd
 
 import (
 	"fmt"
-	"os"
+	"io"
 	"sort"
 	"strings"
 	"text/tabwriter"
@@ -24,6 +24,7 @@ func allDNSCodes() string {
 		"bindman",
 		"bluecat",
 		"checkdomain",
+		"civo",
 		"clouddns",
 		"cloudflare",
 		"cloudns",
@@ -33,6 +34,7 @@ func allDNSCodes() string {
 		"desec",
 		"designate",
 		"digitalocean",
+		"dnshomede",
 		"dnsimple",
 		"dnsmadeeasy",
 		"dnspod",
@@ -70,6 +72,7 @@ func allDNSCodes() string {
 		"ionos",
 		"iwantmyname",
 		"joker",
+		"liara",
 		"lightsail",
 		"linode",
 		"liquidweb",
@@ -107,15 +110,19 @@ func allDNSCodes() string {
 		"stackpath",
 		"tencentcloud",
 		"transip",
+		"ultradns",
 		"variomedia",
 		"vegadns",
 		"vercel",
 		"versio",
 		"vinyldns",
+		"vkcloud",
 		"vscale",
 		"vultr",
+		"websupport",
 		"wedos",
 		"yandex",
+		"yandexcloud",
 		"zoneee",
 		"zonomi",
 	}
@@ -123,8 +130,8 @@ func allDNSCodes() string {
 	return strings.Join(providers, ", ")
 }
 
-func displayDNSHelp(name string) error {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+func displayDNSHelp(w io.Writer, name string) error {
+	w = tabwriter.NewWriter(w, 0, 0, 2, ' ', 0)
 	ew := &errWriter{w: w}
 
 	switch name {
@@ -214,8 +221,8 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 
 		ew.writeln(`Credentials:`)
-		ew.writeln(`	- "AURORA_KEY":	User API key`)
-		ew.writeln(`	- "AURORA_USER_ID":	User ID`)
+		ew.writeln(`	- "AURORA_API_KEY":	API key or username to used`)
+		ew.writeln(`	- "AURORA_SECRET":	Secret password to be used`)
 		ew.writeln()
 
 		ew.writeln(`Additional Configuration:`)
@@ -341,6 +348,25 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/checkdomain`)
+
+	case "civo":
+		// generated from: providers/dns/civo/civo.toml
+		ew.writeln(`Configuration for Civo.`)
+		ew.writeln(`Code:	'civo'`)
+		ew.writeln(`Since:	'v4.9.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "CIVO_TOKEN":	Authentication token`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "CIVO_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "CIVO_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "CIVO_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/civo`)
 
 	case "clouddns":
 		// generated from: providers/dns/clouddns/clouddns.toml
@@ -539,6 +565,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 
 		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "DO_API_URL":	The URL of the API`)
 		ew.writeln(`	- "DO_HTTP_TIMEOUT":	API request timeout`)
 		ew.writeln(`	- "DO_POLLING_INTERVAL":	Time between DNS propagation check`)
 		ew.writeln(`	- "DO_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
@@ -546,6 +573,20 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/digitalocean`)
+
+	case "dnshomede":
+		// generated from: providers/dns/dnshomede/dnshomede.toml
+		ew.writeln(`Configuration for dnsHome.de.`)
+		ew.writeln(`Code:	'dnshomede'`)
+		ew.writeln(`Since:	'v4.10.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "DNSHOMEDE_CREDENTIALS":	Comma-separated list of domain:password credential pairs`)
+		ew.writeln()
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/dnshomede`)
 
 	case "dnsimple":
 		// generated from: providers/dns/dnsimple/dnsimple.toml
@@ -591,7 +632,7 @@ func displayDNSHelp(name string) error {
 
 	case "dnspod":
 		// generated from: providers/dns/dnspod/dnspod.toml
-		ew.writeln(`Configuration for DNSPod.`)
+		ew.writeln(`Configuration for DNSPod (deprecated).`)
 		ew.writeln(`Code:	'dnspod'`)
 		ew.writeln(`Since:	'v0.4.0'`)
 		ew.writeln()
@@ -823,6 +864,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 
 		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "EXOSCALE_API_ZONE":	API zone`)
 		ew.writeln(`	- "EXOSCALE_ENDPOINT":	API endpoint URL`)
 		ew.writeln(`	- "EXOSCALE_HTTP_TIMEOUT":	API request timeout`)
 		ew.writeln(`	- "EXOSCALE_POLLING_INTERVAL":	Time between DNS propagation check`)
@@ -1167,17 +1209,17 @@ func displayDNSHelp(name string) error {
 		ew.writeln(`Credentials:`)
 		ew.writeln(`	- "INFOBLOX_HOST":	Host URI`)
 		ew.writeln(`	- "INFOBLOX_PASSWORD":	Account Password`)
-		ew.writeln(`	- "INFOBLOX_USER":	Account Username`)
+		ew.writeln(`	- "INFOBLOX_USERNAME":	Account Username`)
 		ew.writeln()
 
 		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "INFOBLOX_DNS_VIEW":	The view for the TXT records, default: External`)
 		ew.writeln(`	- "INFOBLOX_HTTP_TIMEOUT":	HTTP request timeout`)
 		ew.writeln(`	- "INFOBLOX_POLLING_INTERVAL":	Time between DNS propagation check`)
 		ew.writeln(`	- "INFOBLOX_PORT":	The port for the infoblox grid manager, default: 443`)
 		ew.writeln(`	- "INFOBLOX_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
 		ew.writeln(`	- "INFOBLOX_SSL_VERIFY":	Whether or not to verify the TLS certificate, default: true`)
 		ew.writeln(`	- "INFOBLOX_TTL":	The TTL of the TXT record used for the DNS challenge`)
-		ew.writeln(`	- "INFOBLOX_VIEW":	The view for the TXT records, default: External`)
 		ew.writeln(`	- "INFOBLOX_WAPI_VERSION":	The version of WAPI being used, default: 2.11`)
 
 		ew.writeln()
@@ -1312,6 +1354,26 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/joker`)
 
+	case "liara":
+		// generated from: providers/dns/liara/liara.toml
+		ew.writeln(`Configuration for Liara.`)
+		ew.writeln(`Code:	'liara'`)
+		ew.writeln(`Since:	'v4.10.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "LIARA_API_KEY":	The API key`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "LIARA_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "LIARA_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "LIARA_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "LIARA_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/liara`)
+
 	case "lightsail":
 		// generated from: providers/dns/lightsail/lightsail.toml
 		ew.writeln(`Configuration for Amazon Lightsail.`)
@@ -1389,6 +1451,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 
 		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "LOOPIA_API_URL":	API endpoint. Ex: https://api.loopia.se/RPCSERV or https://api.loopia.rs/RPCSERV`)
 		ew.writeln(`	- "LOOPIA_HTTP_TIMEOUT":	API request timeout`)
 		ew.writeln(`	- "LOOPIA_POLLING_INTERVAL":	Time between DNS propagation check`)
 		ew.writeln(`	- "LOOPIA_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
@@ -2086,6 +2149,7 @@ func displayDNSHelp(name string) error {
 		ew.writeln(`	- "TENCENTCLOUD_POLLING_INTERVAL":	Time between DNS propagation check`)
 		ew.writeln(`	- "TENCENTCLOUD_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
 		ew.writeln(`	- "TENCENTCLOUD_REGION":	Region`)
+		ew.writeln(`	- "TENCENTCLOUD_SESSION_TOKEN":	Access Key token`)
 		ew.writeln(`	- "TENCENTCLOUD_TTL":	The TTL of the TXT record used for the DNS challenge`)
 
 		ew.writeln()
@@ -2110,6 +2174,27 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/transip`)
+
+	case "ultradns":
+		// generated from: providers/dns/ultradns/ultradns.toml
+		ew.writeln(`Configuration for Ultradns.`)
+		ew.writeln(`Code:	'ultradns'`)
+		ew.writeln(`Since:	'v4.10.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "ULTRADNS_PASSWORD":	API Password`)
+		ew.writeln(`	- "ULTRADNS_USERNAME":	API Username`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "ULTRADNS_ENDPOINT":	API endpoint URL, defaults to https://api.ultradns.com/`)
+		ew.writeln(`	- "ULTRADNS_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "ULTRADNS_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "ULTRADNS_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/ultradns`)
 
 	case "variomedia":
 		// generated from: providers/dns/variomedia/variomedia.toml
@@ -2218,6 +2303,30 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/vinyldns`)
 
+	case "vkcloud":
+		// generated from: providers/dns/vkcloud/vkcloud.toml
+		ew.writeln(`Configuration for VK Cloud.`)
+		ew.writeln(`Code:	'vkcloud'`)
+		ew.writeln(`Since:	'v4.9.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "VK_CLOUD_PASSWORD":	Password for VK Cloud account`)
+		ew.writeln(`	- "VK_CLOUD_PROJECT_ID":	String ID of project in VK Cloud`)
+		ew.writeln(`	- "VK_CLOUD_USERNAME":	Email of VK Cloud account`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "VK_CLOUD_DNS_ENDPOINT":	URL of DNS API. Defaults to https://mcs.mail.ru/public-dns but can be changed for usage with private clouds`)
+		ew.writeln(`	- "VK_CLOUD_DOMAIN_NAME":	Openstack users domain name. Defaults to 'users' but can be changed for usage with private clouds`)
+		ew.writeln(`	- "VK_CLOUD_IDENTITY_ENDPOINT":	URL of OpenStack Auth API, Defaults to https://infra.mail.ru:35357/v3/ but can be changed for usage with private clouds`)
+		ew.writeln(`	- "VK_CLOUD_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "VK_CLOUD_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "VK_CLOUD_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/vkcloud`)
+
 	case "vscale":
 		// generated from: providers/dns/vscale/vscale.toml
 		ew.writeln(`Configuration for Vscale.`)
@@ -2259,6 +2368,28 @@ func displayDNSHelp(name string) error {
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/vultr`)
 
+	case "websupport":
+		// generated from: providers/dns/websupport/websupport.toml
+		ew.writeln(`Configuration for Websupport.`)
+		ew.writeln(`Code:	'websupport'`)
+		ew.writeln(`Since:	'v4.10.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "WEBSUPPORT_API_KEY":	API key`)
+		ew.writeln(`	- "WEBSUPPORT_SECRET":	API secret`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "WEBSUPPORT_HTTP_TIMEOUT":	API request timeout`)
+		ew.writeln(`	- "WEBSUPPORT_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "WEBSUPPORT_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "WEBSUPPORT_SEQUENCE_INTERVAL":	Time between sequential requests`)
+		ew.writeln(`	- "WEBSUPPORT_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/websupport`)
+
 	case "wedos":
 		// generated from: providers/dns/wedos/wedos.toml
 		ew.writeln(`Configuration for WEDOS.`)
@@ -2282,7 +2413,7 @@ func displayDNSHelp(name string) error {
 
 	case "yandex":
 		// generated from: providers/dns/yandex/yandex.toml
-		ew.writeln(`Configuration for Yandex.`)
+		ew.writeln(`Configuration for Yandex PDD.`)
 		ew.writeln(`Code:	'yandex'`)
 		ew.writeln(`Since:	'v3.7.0'`)
 		ew.writeln()
@@ -2299,6 +2430,26 @@ func displayDNSHelp(name string) error {
 
 		ew.writeln()
 		ew.writeln(`More information: https://go-acme.github.io/lego/dns/yandex`)
+
+	case "yandexcloud":
+		// generated from: providers/dns/yandexcloud/yandexcloud.toml
+		ew.writeln(`Configuration for Yandex Cloud.`)
+		ew.writeln(`Code:	'yandexcloud'`)
+		ew.writeln(`Since:	'v4.9.0'`)
+		ew.writeln()
+
+		ew.writeln(`Credentials:`)
+		ew.writeln(`	- "YANDEX_CLOUD_FOLDER_ID":	The string id of folder (aka project) in Yandex Cloud`)
+		ew.writeln(`	- "YANDEX_CLOUD_IAM_TOKEN":	The base64 encoded json which contains inforamtion about iam token of serivce account with 'dns.admin' permissions`)
+		ew.writeln()
+
+		ew.writeln(`Additional Configuration:`)
+		ew.writeln(`	- "YANDEX_CLOUD_POLLING_INTERVAL":	Time between DNS propagation check`)
+		ew.writeln(`	- "YANDEX_CLOUD_PROPAGATION_TIMEOUT":	Maximum waiting time for DNS propagation`)
+		ew.writeln(`	- "YANDEX_CLOUD_TTL":	The TTL of the TXT record used for the DNS challenge`)
+
+		ew.writeln()
+		ew.writeln(`More information: https://go-acme.github.io/lego/dns/yandexcloud`)
 
 	case "zoneee":
 		// generated from: providers/dns/zoneee/zoneee.toml
@@ -2348,9 +2499,8 @@ func displayDNSHelp(name string) error {
 		return fmt.Errorf("%q is not yet supported", name)
 	}
 
-	if ew.err != nil {
-		return fmt.Errorf("error: %w", ew.err)
+	if flusher, ok := w.(interface{ Flush() error }); ok {
+		return flusher.Flush()
 	}
-
-	return w.Flush()
+	return nil
 }

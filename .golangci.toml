@@ -1,5 +1,5 @@
 [run]
-  deadline = "5m"
+  timeout = "7m"
   skip-files = []
 
 [linters-settings]
@@ -53,11 +53,16 @@
 [linters]
   enable-all = true
   disable = [
+    "deadcode", # deprecated
+    "exhaustivestruct", # deprecated
+    "golint", # deprecated
+    "ifshort", # deprecated
     "interfacer", # deprecated
     "maligned", # deprecated
+    "nosnakecase", # deprecated
     "scopelint", # deprecated
-    "golint", # deprecated
-    "exhaustivestruct", # deprecated
+    "structcheck", # deprecated
+    "varcheck", # deprecated
     "cyclop", # duplicate of gocyclo
     "sqlclosecheck", # not relevant (SQL)
     "rowserrcheck", # not relevant (SQL)
@@ -79,7 +84,6 @@
     "exhaustive", # not relevant
     "exhaustruct", # not relevant
     "makezero", # not relevant
-    "ifshort", # not relevant
     "forbidigo", # not relevant
     "varnamelen", # not relevant
     "nilnil", # not relevant
@@ -92,6 +96,7 @@
     "errname",
     "errchkjson",
     "nonamedreturns",
+    "musttag", # false-positive https://github.com/junk1tm/musttag/issues/17
   ]
 
 [issues]
@@ -101,7 +106,8 @@
   exclude = [
     "Error return value of .((os\\.)?std(out|err)\\..*|.*Close|.*Flush|os\\.Remove(All)?|.*printf?|os\\.(Un)?Setenv). is not checked",
     "exported (type|method|function) (.+) should have comment or be unexported",
-    "ST1000: at least one file in a package should have a package comment"
+    "ST1000: at least one file in a package should have a package comment",
+    "package-comments: should have a package comment",
   ]
   [[issues.exclude-rules]]
     path = "(.+)_test.go"
@@ -120,7 +126,10 @@
     text = "(tlsFeatureExtensionOID|ocspMustStapleFeature) is a global variable"
   [[issues.exclude-rules]]
     path = "challenge/dns01/nameserver.go"
-    text = "(defaultNameservers|recursiveNameservers|dnsTimeout|fqdnSoaCache|muFqdnSoaCache) is a global variable"
+    text = "(defaultNameservers|recursiveNameservers|fqdnSoaCache|muFqdnSoaCache) is a global variable"
+  [[issues.exclude-rules]]
+    path = "challenge/dns01/nameserver_.+.go"
+    text = "dnsTimeout is a global variable"
   [[issues.exclude-rules]]
     path = "challenge/dns01/nameserver_test.go"
     text = "findXByFqdnTestCases is a global variable"
@@ -193,3 +202,9 @@
   [[issues.exclude-rules]]
     path = "providers/dns/dns_providers.go"
     text = "Function name: NewDNSChallengeProviderByName,"
+  [[issues.exclude-rules]]
+    path = "providers/dns/sakuracloud/client.go"
+    text = "mu is a global variable"
+  [[issues.exclude-rules]]
+    path = "providers/dns/hosttech/internal/client_test.go"
+    text = "Duplicate words \\(0\\) found"
